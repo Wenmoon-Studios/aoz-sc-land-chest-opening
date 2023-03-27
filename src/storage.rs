@@ -9,10 +9,6 @@ pub trait StorageModule {
     fn enabled(&self) -> SingleValueMapper<bool>;
 
     //COLLECTION
-    #[view(getChestNonces)]
-    #[storage_mapper("chestNonces")]
-    fn chest_nonces(&self) -> UnorderedSetMapper<u64>;
-
     #[view(getChestTokenId)]
     #[storage_mapper("chestTokenId")]
     fn chest_token_id(&self) -> SingleValueMapper<TokenIdentifier>;
