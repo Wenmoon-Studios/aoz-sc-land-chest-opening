@@ -29,4 +29,16 @@ pub trait StorageModule {
     #[view(getPoolQuantity)]
     #[storage_mapper("poolQuantity")]
     fn pool_quantity(&self, pool_id: u64) -> SingleValueMapper<u64>;
+
+
+
+    // New storages
+    #[storage_mapper("guaranteed_item")]
+    fn guaranteed_item(&self, chest_nonce: u64) -> SingleValueMapper<EsdtTokenPayment>;
+
+    #[storage_mapper("guaranteed_item_set")]
+    fn guaranteed_item_set(&self, chest_nonce: u64) -> MapMapper<EsdtTokenPayment, usize>;
+
+    #[storage_mapper("chance_based_item_set")]
+    fn chance_based_item_set(&self, chest_nonce: u64) -> MapMapper<EsdtTokenPayment, usize>;
 }

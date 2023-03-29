@@ -6,7 +6,8 @@ multiversx_sc::derive_imports!();
 pub mod owner;
 pub mod storage;
 pub mod types;
-
+pub mod context;
+use context::StorageCache;
 use crate::types::*;
 
 // TODO Phase 2:
@@ -47,7 +48,9 @@ pub trait AozScLandChestOpening: storage::StorageModule + owner::OwnerModule {
 
         //random between 1 and sum(quantity(eligible_pool_ids))
         for chest in payment.iter() {
+            
             require!(&chest.token_identifier == &collection_id, "wrong SFTs sent");
+            let mut _storage_cache  = StorageCache::new(self, chest.token_nonce);
 
             require!(
                 !self.eligible_pool_ids(chest.token_nonce).is_empty(),
