@@ -8,11 +8,6 @@ pub mod storage;
 pub mod context;
 use context::StorageCache;
 
-// TODO Phase 2:
-// find a way to store remaining quantity of each prize pool outside of the main for
-// use this array to identify what prize_pool_id to use based on the random number
-// and pass those arrays to get_prize_pool
-
 #[multiversx_sc::contract]
 pub trait AozScLandChestOpening: storage::StorageModule + owner::OwnerModule {
     #[init]
