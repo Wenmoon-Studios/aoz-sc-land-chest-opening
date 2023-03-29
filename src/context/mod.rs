@@ -92,6 +92,13 @@ where
         drop_content
     }
 
+    pub fn get_guaranteed_drop_with_quantity(&mut self, quantity: BigUint<C::Api>) -> EsdtTokenPayment<C::Api> {
+        let mut guaranteed_drop = self.sc_ref.guaranteed_item(self.chest_nonce).get();
+        guaranteed_drop.amount = quantity;
+        
+        guaranteed_drop
+    }
+
     pub fn get_guaranteed_drop(&mut self) -> EsdtTokenPayment<C::Api> {
         self.sc_ref.guaranteed_item(self.chest_nonce).get()
     }
