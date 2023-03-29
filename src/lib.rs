@@ -5,7 +5,6 @@ multiversx_sc::derive_imports!();
 
 pub mod owner;
 pub mod storage;
-pub mod types;
 pub mod context;
 use context::StorageCache;
 
