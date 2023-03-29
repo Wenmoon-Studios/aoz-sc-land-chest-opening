@@ -11,7 +11,15 @@ use context::StorageCache;
 #[multiversx_sc::contract]
 pub trait AozScLandChestOpening: storage::StorageModule + owner::OwnerModule {
     #[init]
-    fn init(&self, chest_token_id_opt: OptionalValue<TokenIdentifier>) {
+    fn init(
+        &self,
+        is_contract_disabled: OptionalValue<bool>,
+        chest_token_id_opt: OptionalValue<TokenIdentifier>
+    ) {
+        match is_contract_disabled {
+            OptionalValue::Some(val) => self.enabled().set(&val),
+            OptionalValue::None => self.enabled().set(false)
+        };
         match chest_token_id_opt {
             OptionalValue::Some(val) => self.chest_token_id().set(val),
             OptionalValue::None => {

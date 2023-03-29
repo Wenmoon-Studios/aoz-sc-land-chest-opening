@@ -13,7 +13,7 @@ pub trait StorageModule {
     #[storage_mapper("chestTokenId")]
     fn chest_token_id(&self) -> SingleValueMapper<TokenIdentifier>;
 
-    // New storages
+    // REWARDS
     #[storage_mapper("guaranteed_item")]
     fn guaranteed_item(&self, chest_nonce: u64) -> SingleValueMapper<EsdtTokenPayment>;
 
