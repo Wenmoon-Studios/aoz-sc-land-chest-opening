@@ -92,10 +92,7 @@ where
         drop_content
     }
 
-
-
     pub fn get_guaranteed_drop(&mut self) -> EsdtTokenPayment<C::Api> {
-        self.remaining_guaranteed_drops -= 1;
         self.sc_ref.guaranteed_item(self.chest_nonce).get()
     }
 }
