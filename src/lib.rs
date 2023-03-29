@@ -44,8 +44,8 @@ pub trait AozScLandChestOpening: storage::StorageModule + owner::OwnerModule {
             require!(&chest.token_identifier == &chest_token_id, "wrong SFTs sent");
             let mut storage_cache  = StorageCache::new(self, chest.token_nonce);
             for _ in 0..chest.amount.to_u64().unwrap() as usize {
-                if storage_cache.has_won_legendary_drop() {
-                    let chance_drop = storage_cache.get_legendary_drop();
+                if storage_cache.has_won_chance_drop() {
+                    let chance_drop = storage_cache.get_chance_drop();
                     rewards_vec.push(chance_drop);
                 }
                 let guaranteed_drop_from_set = storage_cache.get_guaranteed_drop_from_set();

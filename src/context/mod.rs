@@ -55,12 +55,12 @@ where
         }
     }
 
-    pub fn has_won_legendary_drop(&mut self) -> bool {
+    pub fn has_won_chance_drop(&mut self) -> bool {
         let random = self.randomness_source.next_usize_in_range(0, self.remaining_guaranteed_drops + 1);
         random < self.remaining_chance_drops
     }
 
-    pub fn get_legendary_drop(&mut self) -> EsdtTokenPayment<C::Api> {
+    pub fn get_chance_drop(&mut self) -> EsdtTokenPayment<C::Api> {
         self.remaining_chance_drops -= 1;
         Self::get_drop_item_from_set(
             &mut self.randomness_source, 
