@@ -90,7 +90,7 @@ where
             .assert_ok();
     }
 
-    pub fn check_prize_drop_count(&mut self, expected_max_amount: u32) {
+    pub fn check_prize_drop_count(&mut self, expected_min_amount: u32, expected_max_amount: u32) {
         let mut total_prize_count = rust_biguint!(0);
         let all_prizes = vec![
             (GUARANTEED_DROP_TOKEN_ID, 1),
@@ -109,8 +109,34 @@ where
             let reward_count = self.b_mock.get_esdt_balance(&self.user_address, token_id, *nonce);
             total_prize_count += reward_count;
         }
-        let expected = rust_biguint!(expected_max_amount);
-        let comparison = expected >= total_prize_count;
+        let expected_min = rust_biguint!(expected_min_amount);
+        let expected_max = rust_biguint!(expected_max_amount);
+        let comparison = expected_min <= total_prize_count && total_prize_count <= expected_max;
+        assert_values_eq!(comparison, true);
+    }
+
+    pub fn check_0_sc_balance(&mut self) {
+        let mut total_prize_count = rust_biguint!(0);
+        let all_prizes = vec![
+            (GUARANTEED_DROP_TOKEN_ID, 1),
+            (GUARANTEED_SET_TOKEN_ID_1, 1),
+            (GUARANTEED_SET_TOKEN_ID_2, 2),
+            (GUARANTEED_SET_TOKEN_ID_3, 3),
+            (LEGENDARY_DROP_1, 1),
+            (LEGENDARY_DROP_2, 2),
+            (LEGENDARY_DROP_3, 3),
+            (LEGENDARY_DROP_4, 4),
+            (LEGENDARY_DROP_5, 5),
+        ];
+
+        for item in all_prizes.iter() {
+            let (token_id, nonce) = item;
+            let reward_count = self.b_mock.get_esdt_balance(self.sc_wrapper.address_ref(), token_id, *nonce);
+            total_prize_count += reward_count;
+        }
+
+        let expected = rust_biguint!(0);
+        let comparison = expected == total_prize_count;
         assert_values_eq!(comparison, true);
     }
 }

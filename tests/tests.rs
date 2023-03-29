@@ -10,40 +10,43 @@ fn init_test() {
 }
 
 #[test]
-fn open_1_chest() {
+fn open_1_chest_of_100() {
     let mut setup = ChestOpeningSetup::new(aoz_sc_land_chest_opening::contract_obj);
     setup.open_chests(1);
     // case pull is winner: 3 items
     // case pull is loser: 2 items
-    setup.check_prize_drop_count(3);
+    setup.check_prize_drop_count(2, 3);
 }
 
 #[test]
-fn open_10_chests() {
+fn open_10_chests_of_100() {
     let mut setup = ChestOpeningSetup::new(aoz_sc_land_chest_opening::contract_obj);
-    // case pull is winner: 3 items
-    // case pull is loser: 2 items
-    // 15 total items to be won
-    // => all lucky = 30 items
+    // min drops per chest = 2
+    // max drops per chest = 3, up to 15 chests
+    // => total drop count for 10 chests is in [20, 30]
     setup.open_chests(10);
-    setup.check_prize_drop_count(30);
+    setup.check_prize_drop_count(20, 30);
 }
 
 #[test]
-fn open_50_chests() {
+fn open_50_chests_of_100() {
     let mut setup = ChestOpeningSetup::new(aoz_sc_land_chest_opening::contract_obj);
-    // case pull is winner: 3 items
-    // case pull is loser: 2 items
-    // 15 total items to be won
-    // => 15 lucky chests at most + 35 regular chests at worst
-    // totals 15 * 3 + 35 * 2 = 45 + 70 = 115
+    // min drops per chest = 2
+    // max drops per chest = 3, up to 15 chests
+    // => min drop for 50 chests = 100;
+    // => max drop for 50 chests = 115 (15 * 3 items + 35 * 2 items)
+    // => total drop count for 50 chests is in [100, 115]
     setup.open_chests(50);
-    setup.check_prize_drop_count(115);
+    setup.check_prize_drop_count(100, 115);
 }
 
 #[test]
-fn open_100_chests() {
+fn open_100_chests_of_100() {
     let mut setup = ChestOpeningSetup::new(aoz_sc_land_chest_opening::contract_obj);
+    // total drop size is 100
+    // this means that with all the chests dropped, all the rewards should've been distributed
+    // => total drop count for 100 chests must be equal to 215 (15 * 3 items + 85 * 2 items)
     setup.open_chests(100);
-    setup.check_prize_drop_count(215);
+    setup.check_prize_drop_count(215, 215);
+    setup.check_0_sc_balance();
 }
