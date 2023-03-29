@@ -72,3 +72,12 @@ fn open_all_chests() {
     setup.check_prize_drop_count(total_rewards_count, total_rewards_count);  
     setup.check_0_sc_balance();
 }
+
+#[test]
+fn open_99_chests_of_each_type() {
+    let mut setup = ChestOpeningRealisticSetup::new(aoz_sc_land_chest_opening::contract_obj);
+    setup.open_chests(&[(1,99), (2,99), (3,99), (4,99)]);
+    let expected_min_per_chest = 2 * 99 * 4;
+    let expected_max_per_chest = 3 * 99 * 4;
+    setup.check_prize_drop_count(expected_min_per_chest, expected_max_per_chest);
+}
