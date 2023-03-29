@@ -55,7 +55,7 @@ where
 
     pub fn has_won_chance_drop(&mut self) -> bool {
         let random = self.randomness_source.next_usize_in_range(0, self.remaining_guaranteed_drops + 1);
-        self.remaining_chance_drops > 0 && random < self.remaining_chance_drops
+        self.remaining_chance_drops > 0 && random <= self.remaining_chance_drops
     }
 
     pub fn get_chance_drop(&mut self) -> EsdtTokenPayment<C::Api> {

@@ -27,7 +27,7 @@ where
     pub b_mock: BlockchainStateWrapper,
     pub owner_address: Address,
     pub user_address: Address,
-    pub sc_wrapper: ContractObjWrapper<aoz_sc_land_chest_opening::ContractObj<DebugApi>, ChestOpeningObjBuilder>
+    pub sc_wrapper: ContractObjWrapper<aoz_sc_land_chest_opening::ContractObj<DebugApi>, ChestOpeningObjBuilder>,
 }
 
 impl<ChestOpeningObjBuilder> ChestOpeningSetup<ChestOpeningObjBuilder>

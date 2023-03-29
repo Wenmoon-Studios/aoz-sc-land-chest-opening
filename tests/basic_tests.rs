@@ -1,8 +1,9 @@
-mod setup;
+mod basic_setup;
+mod realistic_setup;
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
-use crate::setup::*;
+use crate::basic_setup::*;
 
 #[test]
 fn init_test() {
