@@ -1,8 +1,6 @@
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
-pub const DROP_CHANCE_DENOMINATION: usize = 1_000_000_000;
-
 pub struct StorageCache<'a, C>
 where
     C: crate::storage::StorageModule,
