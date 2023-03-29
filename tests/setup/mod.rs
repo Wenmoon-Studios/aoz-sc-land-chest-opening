@@ -1,10 +1,9 @@
 use aoz_sc_land_chest_opening::*;
 use aoz_sc_land_chest_opening::owner::OwnerModule;
-use aoz_sc_land_chest_opening::storage::StorageModule;
-use multiversx_sc_scenario::{whitebox::{BlockchainStateWrapper,ContractObjWrapper,TxTokenTransfer}, rust_biguint, managed_token_id, managed_biguint, assert_values_eq};
+use multiversx_sc_scenario::{whitebox::{BlockchainStateWrapper,ContractObjWrapper}, rust_biguint, managed_token_id, assert_values_eq};
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
-use multiversx_sc::types::{Address, EsdtLocalRole, ManagedAddress, MultiValueEncoded};
+use multiversx_sc::types::{Address};
 use multiversx_sc_scenario::{
     DebugApi,
 };
@@ -106,8 +105,8 @@ where
         ];
 
         for item in all_prizes.iter() {
-            let (tokenId, nonce) = item;
-            let reward_count = self.b_mock.get_esdt_balance(&self.user_address, tokenId, *nonce);
+            let (token_id, nonce) = item;
+            let reward_count = self.b_mock.get_esdt_balance(&self.user_address, token_id, *nonce);
             total_prize_count += reward_count;
         }
         let expected = rust_biguint!(expected_max_amount);
