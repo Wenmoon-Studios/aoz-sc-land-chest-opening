@@ -59,7 +59,6 @@ pub trait AozScLandChestOpening: storage::StorageModule + owner::OwnerModule {
         }
 
         require!(!rewards_vec.is_empty(), "no rewards to receive");
-
         //send back the rewards
         self.send()
             .direct_multi(&self.blockchain().get_caller(), &rewards_vec);

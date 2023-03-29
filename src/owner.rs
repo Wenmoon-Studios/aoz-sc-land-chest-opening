@@ -73,4 +73,9 @@ pub trait OwnerModule: crate::storage::StorageModule {
     fn clear_chance_item_set(&self, chest_nonce: u64) {
         self.chance_based_item_set(chest_nonce).clear();
     }
+
+    #[only_owner]
+    #[payable("*")]
+    #[endpoint(deposit)]
+    fn deposit(&self) {}
 }

@@ -57,7 +57,7 @@ where
 
     pub fn has_won_chance_drop(&mut self) -> bool {
         let random = self.randomness_source.next_usize_in_range(0, self.remaining_guaranteed_drops + 1);
-        random < self.remaining_chance_drops
+        self.remaining_chance_drops > 0 && random < self.remaining_chance_drops
     }
 
     pub fn get_chance_drop(&mut self) -> EsdtTokenPayment<C::Api> {
@@ -80,14 +80,16 @@ where
         randomness_source: &mut RandomnessSource<C::Api>, 
         drop_set: &mut ManagedVec::<C::Api, DropItem<C::Api>>
     ) -> EsdtTokenPayment<C::Api> {
-        let random_drop_idx = randomness_source.next_usize_in_range(0, drop_set.len() + 1);
+        let random_drop_idx = randomness_source.next_usize_in_range(0, drop_set.len());
         let mut set_drop_item = drop_set.get(random_drop_idx);
         let drop_content = set_drop_item.drop_content.clone();
 
         drop_set.remove(random_drop_idx);
 
         set_drop_item.amount_left -= 1;
-        drop_set.push(set_drop_item);
+        if set_drop_item.amount_left > 0 {
+            drop_set.push(set_drop_item);
+        }
         
         drop_content
     }
@@ -113,19 +115,31 @@ where
         for new_chance_drop in self.remaining_chance_set.iter() {
             let key = new_chance_drop.drop_content;
             let value = new_chance_drop.amount_left;
-            self.sc_ref
-                .chance_based_item_set(self.chest_nonce)
-                .entry(key)
-                .and_modify(|amount| *amount = value);
+            if value == 0 {
+                self.sc_ref
+                    .chance_based_item_set(self.chest_nonce)
+                    .remove(&key);
+            } else {
+                self.sc_ref
+                    .chance_based_item_set(self.chest_nonce)
+                    .entry(key)
+                    .and_modify(|amount| *amount = value);
+            }
         }
 
         for new_guaranteed_drop in self.remaining_guaranteed_set.iter() {
             let key = new_guaranteed_drop.drop_content;
             let value = new_guaranteed_drop.amount_left;
-            self.sc_ref
-                .guaranteed_item_set(self.chest_nonce)
-                .entry(key)
-                .and_modify(|amount| *amount = value);
+            if value == 0 {
+                self.sc_ref
+                    .guaranteed_item_set(self.chest_nonce)
+                    .remove(&key);
+            } else {
+                self.sc_ref
+                    .guaranteed_item_set(self.chest_nonce)
+                    .entry(key)
+                    .and_modify(|amount| *amount = value);
+            }
         }
     }
 }
