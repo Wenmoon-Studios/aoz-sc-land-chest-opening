@@ -20,6 +20,7 @@ pub trait StorageModule {
     #[storage_mapper("guaranteed_item_set")]
     fn guaranteed_item_set(&self, chest_nonce: u64) -> MapMapper<EsdtTokenPayment, usize>;
 
+    #[view(getRemainingChanceBasedItems)]
     #[storage_mapper("chance_based_item_set")]
     fn chance_based_item_set(&self, chest_nonce: u64) -> MapMapper<EsdtTokenPayment, usize>;
 }
